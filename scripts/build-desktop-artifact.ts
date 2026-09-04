@@ -732,6 +732,9 @@ const createBuildConfig = Effect.fn("createBuildConfig")(function* (
       buildResources: "apps/desktop/resources",
     },
     forceCodeSigning: signed,
+    // node-pty and msgpackr-extract both ship Windows x64 prebuilds. Keeping those
+    // binaries avoids a needless local MSVC rebuild and matches the packaged app.
+    ...(platform === "win" ? { npmRebuild: false } : {}),
   };
   const publishConfig = resolveGitHubPublishConfig();
   if (publishConfig) {
