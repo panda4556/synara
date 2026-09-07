@@ -1,32 +1,22 @@
-# Synara · 可选语言社区版
-
-基于上游 Synara **v0.8.3** 的 Windows x64 社区构建，新增可自行选择的界面语言：**跟随系统 / English / 简体中文**。入口为 **设置 → 常规 → Language / 语言**，切换立即生效并保存选择。
-
-**[下载可选语言版](https://github.com/panda4556/synara/releases/latest)** · **[中文安装说明](./README.zh-CN.md)** · **[更新日志](./CHANGELOG.zh-CN.md)** · **[本地化实现说明](./LOCALIZATION.zh-CN.md)**
-
-当前社区版本：`v0.8.3-cn.1`。这是非官方、未签名的构建；只提供 Windows x64 安装包，不启用自动更新，不改变账号登录、模型或计费。聊天正文、代码与终端输出不作翻译，部分未覆盖的界面文案仍可能显示英文。
-
-This community fork adds a persistent **System default / English / Simplified Chinese** selector to Synara v0.8.3. It is an unofficial, unsigned Windows x64 build. See the [community release](https://github.com/panda4556/synara/releases/latest) for downloads, checksums, upgrade instructions, and limitations. The original upstream README is retained below; its download links lead to the official builds, not this language-enabled build.
-
----
-
 <div align="center">
   <img src="./assets/prod/logo.svg" width="112" alt="Synara logo">
-  <h1>Synara</h1>
-  <p><strong>A focused workspace for coding agents.</strong><br>
-  Projects, provider sessions, execution surfaces, and review tools in one local-first desktop application.</p>
+  <h1>Synara 中文版</h1>
+  <p><strong>面向编程智能体的本地工作区。</strong><br>
+  支持简体中文与英文，可在设置中切换界面语言。</p>
   <p>
-    <a href="https://github.com/Emanuele-web04/synara/releases/latest">Download</a>
+    <a href="https://github.com/panda4556/synara/releases/latest">下载</a>
     &nbsp;·&nbsp;
-    <a href="https://www.trysynara.com/">Website</a>
+    <a href="./README.zh-CN.md">使用说明</a>
     &nbsp;·&nbsp;
-    <a href="https://www.trysynara.com/docs">Documentation</a>
+    <a href="./CHANGELOG.zh-CN.md">更新日志</a>
     &nbsp;·&nbsp;
     <a href="./docs/external-mcp.md">MCP integration</a>
     &nbsp;·&nbsp;
-    <a href="https://github.com/Emanuele-web04/synara/issues/new/choose">Report an issue</a>
+    <a href="https://github.com/Emanuele-web04/synara">上游项目</a>
   </p>
 </div>
+
+> 基于 Synara v0.8.3，由本 fork 维护的中文构建。目前提供 Windows x64 安装包，未签名，需手动更新。
 
 <details>
   <summary><strong>Table of contents</strong></summary>
@@ -125,9 +115,9 @@ Configure the shell to match the way you work with light and dark themes, typogr
 
 ### Desktop application
 
-Download the latest build from [GitHub Releases](https://github.com/Emanuele-web04/synara/releases) or visit [trysynara.com](https://www.trysynara.com/).
+Download this fork's Windows x64 Chinese build from [GitHub Releases](https://github.com/panda4556/synara/releases/latest). See the [Chinese installation guide](./README.zh-CN.md).
 
-Current native release targets are Windows x64, macOS Intel, macOS Apple Silicon, and Linux x64.
+For original upstream builds on Windows, macOS, and Linux, visit the [upstream releases](https://github.com/Emanuele-web04/synara/releases).
 
 ### Provider setup
 

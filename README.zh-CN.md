@@ -1,6 +1,6 @@
-# Synara 可选语言社区版
+# Synara 中文版
 
-当前版本：**v0.8.3-cn.1**，基于 [Synara v0.8.3](https://github.com/Emanuele-web04/synara/releases/tag/v0.8.3)。本 fork 提供 Windows x64 安装包，让用户自行选择界面语言；不是上游官方发布。
+当前版本：**v0.8.3-cn.1**，基于 [Synara v0.8.3](https://github.com/Emanuele-web04/synara/releases/tag/v0.8.3)，由本 fork 维护。目前提供 Windows x64 安装包，支持简体中文与英文界面。
 
 [下载最新版](https://github.com/panda4556/synara/releases/latest) · [本版安装包](https://github.com/panda4556/synara/releases/download/v0.8.3-cn.1/Synara-0.8.3-cn.1-x64.exe) · [更新日志](https://github.com/panda4556/synara/blob/language-selection-v0.8.3/CHANGELOG.zh-CN.md) · [上游项目](https://github.com/Emanuele-web04/synara)
 
@@ -12,7 +12,7 @@
 - 在设置中搜索 `Language`、`English`、`中文`、`语言` 或 `跟随系统`，可以找到语言选项。
 - 基线升级到 v0.8.3，包含上游修复打包应用缺少 `zod` 导致部分 ACP 服务商无法启动的问题，以及 Diff 布局记忆等改进。
 
-![设置中的语言选择](https://github.com/panda4556/synara/releases/download/v0.8.3-cn.1/language-selector.png)
+![设置中的语言选择](./assets/language-selector.png)
 
 ## 安装与升级
 
@@ -30,7 +30,7 @@
 
 本安装包**未进行代码签名**，Windows 可能显示未知发布者或 SmartScreen 提示。请核对下载来源和校验值；SHA-256 只能用于核对文件一致性，不能代替发布者签名或安全审计。
 
-下载同一 Release 的 `SHA256SUMS.txt`，在 PowerShell 中运行：
+Release 的 `artifact-win-x64.provenance.json` 包含安装包 SHA-256。在 PowerShell 中运行以下命令进行比对：
 
 ```powershell
 Get-FileHash -LiteralPath .\Synara-0.8.3-cn.1-x64.exe -Algorithm SHA256
@@ -53,7 +53,7 @@ Get-FileHash -LiteralPath .\Synara-0.8.3-cn.1-x64.exe -Algorithm SHA256
 - 本次只发布并验证 Windows x64 安装包，不提供本社区版本的 macOS/Linux 安装包。
 - 语言偏好保存在当前设备/浏览器；如果存储被禁用或清理，选择可能无法跨重启保留。
 - 设置页原有顶栏点击区域可能遮挡全局“恢复默认设置”按钮的一部分，可用键盘 Tab 聚焦后确认；语言下拉框操作不受影响。
-- **不启用自动更新**。后续版本请从本 fork 的 Releases 手动下载安装；官方安装包不保证包含此语言功能。
+- **不启用自动更新**。后续版本请从本 fork 的 Releases 手动下载安装；官方安装包不保证包含此语言功能。Release 随附与上游同格式的 `latest.yml` / `synara.yml` 元数据，但它们不会改变当前安装包的更新设置。
 
 ## 源码与验证
 
@@ -65,7 +65,7 @@ Get-FileHash -LiteralPath .\Synara-0.8.3-cn.1-x64.exe -Algorithm SHA256
 - 已验证完整设置页双向语言切换、刷新保留、恢复默认，以及本机升级后启动和实际语言入口。
 - 未执行全仓 `bun fmt`、`bun lint`、`bun typecheck`；这些检查不计入已通过的验证范围。
 
-实现细节与测试命令见 [LOCALIZATION.zh-CN.md](https://github.com/panda4556/synara/blob/language-selection-v0.8.3/LOCALIZATION.zh-CN.md)。发布仅含程序、公共说明和校验文件，不包含构建机器的账号凭据、聊天数据库或备份。
+实现细节与测试命令见 [LOCALIZATION.zh-CN.md](https://github.com/panda4556/synara/blob/language-selection-v0.8.3/LOCALIZATION.zh-CN.md)。Release 下载区仅放 Windows 安装包、blockmap、来源记录与更新清单；使用说明、截图和许可证保留在仓库，更新内容写在 Release 正文。不包含构建机器的账号凭据、聊天数据库或备份。
 
 ## 致谢与许可证
 
@@ -73,4 +73,4 @@ Synara 原项目由 Emanuele Di Pietro 及原作者/贡献者开发。本 fork �
 
 ## English summary
 
-This unofficial Windows x64 build is based on Synara v0.8.3. Choose **System default, English, or Simplified Chinese** in **Settings → General → Language / 语言**. Switching is immediate and the preference is saved locally. Conversation text, code, and terminal output are not translated. The build is unsigned, has no automatic update feed, and retains a compatibility translation layer for existing UI strings. Download the `.exe`, review the limitations above, and verify it against `SHA256SUMS.txt`.
+This fork's Windows x64 Chinese build is based on Synara v0.8.3. Choose **System default, English, or Simplified Chinese** in **Settings → General → Language / 语言**. Switching is immediate and the preference is saved locally. Conversation text, code, and terminal output are not translated. The build is unsigned, uses manual updates, and retains a compatibility translation layer for existing UI strings. Download the `.exe` and verify its SHA-256 against `artifact-win-x64.provenance.json`.
