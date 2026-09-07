@@ -1,3 +1,15 @@
+# Synara · 可选语言社区版
+
+基于上游 Synara **v0.8.3** 的 Windows x64 社区构建，新增可自行选择的界面语言：**跟随系统 / English / 简体中文**。入口为 **设置 → 常规 → Language / 语言**，切换立即生效并保存选择。
+
+**[下载可选语言版](https://github.com/panda4556/synara/releases/latest)** · **[中文安装说明](./README.zh-CN.md)** · **[更新日志](./CHANGELOG.zh-CN.md)** · **[本地化实现说明](./LOCALIZATION.zh-CN.md)**
+
+当前社区版本：`v0.8.3-cn.1`。这是非官方、未签名的构建；只提供 Windows x64 安装包，不启用自动更新，不改变账号登录、模型或计费。聊天正文、代码与终端输出不作翻译，部分未覆盖的界面文案仍可能显示英文。
+
+This community fork adds a persistent **System default / English / Simplified Chinese** selector to Synara v0.8.3. It is an unofficial, unsigned Windows x64 build. See the [community release](https://github.com/panda4556/synara/releases/latest) for downloads, checksums, upgrade instructions, and limitations. The original upstream README is retained below; its download links lead to the official builds, not this language-enabled build.
+
+---
+
 <div align="center">
   <img src="./assets/prod/logo.svg" width="112" alt="Synara logo">
   <h1>Synara</h1>
