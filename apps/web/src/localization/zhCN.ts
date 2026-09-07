@@ -1,5 +1,5 @@
 // FILE: zhCN.ts
-// Purpose: Applies the Simplified Chinese UI layer used by the localized desktop build.
+// Purpose: Optional, reversible Simplified Chinese compatibility layer for existing UI strings.
 
 import generatedTranslations from "./zh-CN.generated.json";
 
@@ -14,6 +14,7 @@ const MANUAL_TRANSLATIONS: Readonly<Record<string, string>> = {
   Archive: "归档",
   Archived: "已归档",
   Automatic: "自动",
+  "Automatically open simulator": "自动打开模拟器",
   Ayu: "Ayu",
   Backspace: "退格键",
   Bug: "Bug",
@@ -42,16 +43,24 @@ const MANUAL_TRANSLATIONS: Readonly<Record<string, string>> = {
   Everforest: "Everforest",
   Fast: "快速",
   "Full access": "完全访问",
+  General: "常规",
   Gruvbox: "Gruvbox",
   "Hand off": "移交",
   Help: "帮助",
   "Keyboard bindings": "快捷键",
+  Language: "语言",
   "Last turn": "上一轮",
   Light: "浅色",
   "Local Servers": "本地服务器",
   Lobster: "Lobster",
   Manual: "手动",
   "Manual order": "手动排序",
+  "Provider used for new chats until you pick a model. New chats then reuse your most recent model and options.":
+    "尚未选择模型时，新对话使用此服务商；选择后，新对话会沿用最近使用的模型和选项。",
+  "Open the iOS Simulator pane when an agent uses a device. Turn this off to use Simulator.app without the mirrored pane reopening. You can still open the pane manually.":
+    "智能体使用设备时自动打开 iOS 模拟器面板。关闭后可以直接使用 Simulator.app，镜像面板不会自动重新打开；你仍可手动打开面板。",
+  "Reload diff": "重新加载差异",
+  "Reload file from disk": "从磁盘重新加载文件",
   Medium: "中等",
   Monokai: "Monokai",
   "New chat": "新建对话",
@@ -455,74 +464,116 @@ function shouldSkipAttributes(element: Element): boolean {
   return element.closest(RICH_CONTENT_SELECTOR) !== null && !isUiControlInsideRichContent(element);
 }
 
-function translateTextNode(node: Text): void {
-  const parent = node.parentElement;
-  if (!parent || shouldSkipText(parent)) return;
-  const translated = translateSimplifiedChineseText(node.data);
-  if (translated !== node.data) node.data = translated;
+interface TranslationRecord {
+  readonly source: string;
+  readonly translated: string;
 }
 
-function translateElementAttributes(element: Element): void {
-  if (shouldSkipAttributes(element)) return;
-  for (const attribute of TRANSLATABLE_ATTRIBUTES) {
-    const current = element.getAttribute(attribute);
-    if (current === null) continue;
-    const translated = translateSimplifiedChineseText(current);
-    if (translated !== current) element.setAttribute(attribute, translated);
-  }
-
-  if (element instanceof HTMLInputElement && /^(?:button|reset|submit)$/i.test(element.type)) {
-    const translated = translateSimplifiedChineseText(element.value);
-    if (translated !== element.value) element.value = translated;
-  }
-}
-
-function translateSubtree(root: Node): void {
-  if (root instanceof Text) {
-    translateTextNode(root);
-    return;
-  }
-  if (root instanceof Element) {
-    translateElementAttributes(root);
-  }
-
-  const document = root.ownerDocument ?? (root instanceof Document ? root : null);
-  if (!document) return;
-  const walker = document.createTreeWalker(root, NodeFilter.SHOW_ELEMENT | NodeFilter.SHOW_TEXT);
+function visitSubtree(root: Node, visit: (node: Node) => void): void {
+  visit(root);
+  const owner = root.ownerDocument ?? (root instanceof Document ? root : null);
+  if (!owner) return;
+  const walker = owner.createTreeWalker(root, NodeFilter.SHOW_ELEMENT | NodeFilter.SHOW_TEXT);
   let current = walker.nextNode();
   while (current) {
-    if (current instanceof Text) {
-      translateTextNode(current);
-    } else if (current instanceof Element) {
-      translateElementAttributes(current);
-    }
+    visit(current);
     current = walker.nextNode();
   }
 }
 
-interface LocalizationRuntimeState {
-  readonly disconnect: () => void;
-}
+/** Return a disposer that restores the latest English source, without replacing React's nodes. */
+export function installSimplifiedChineseLocalization(): () => void {
+  if (typeof document === "undefined" || !document.documentElement) return () => {};
 
-type LocalizationGlobal = typeof globalThis & {
-  __synaraZhCNLocalization?: LocalizationRuntimeState;
-};
+  // Weak records do not retain unmounted menus, messages, or settings panels.
+  const textRecords = new WeakMap<Text, TranslationRecord>();
+  const attributeRecords = new WeakMap<Element, Map<string, TranslationRecord>>();
+  const valueRecords = new WeakMap<HTMLInputElement, TranslationRecord>();
 
-export function installSimplifiedChineseLocalization(): void {
-  if (typeof document === "undefined" || !document.documentElement) return;
+  const restoreNode = (node: Node) => {
+    if (node instanceof Text) {
+      const record = textRecords.get(node);
+      if (record && node.data === record.translated) node.data = record.source;
+      textRecords.delete(node);
+    } else if (node instanceof Element) {
+      for (const [attribute, record] of attributeRecords.get(node) ?? []) {
+        if (node.getAttribute(attribute) === record.translated) {
+          node.setAttribute(attribute, record.source);
+        }
+      }
+      attributeRecords.delete(node);
+      if (node instanceof HTMLInputElement) {
+        const record = valueRecords.get(node);
+        if (record && node.value === record.translated) node.value = record.source;
+        valueRecords.delete(node);
+      }
+    }
+  };
+  const restoreSubtree = (root: Node) => visitSubtree(root, restoreNode);
 
-  const localizationGlobal = globalThis as LocalizationGlobal;
-  localizationGlobal.__synaraZhCNLocalization?.disconnect();
+  const translateNode = (node: Node) => {
+    if (node instanceof Text) {
+      const parent = node.parentElement;
+      if (!parent || shouldSkipText(parent)) {
+        restoreNode(node);
+        return;
+      }
+      const source = node.data;
+      if (textRecords.get(node)?.translated === source) return;
+      const translated = translateSimplifiedChineseText(source);
+      if (translated === source) {
+        textRecords.delete(node);
+      } else {
+        textRecords.set(node, { source, translated });
+        node.data = translated;
+      }
+    } else if (node instanceof Element) {
+      if (shouldSkipAttributes(node)) {
+        restoreNode(node);
+        return;
+      }
+      const records = attributeRecords.get(node) ?? new Map<string, TranslationRecord>();
+      for (const attribute of TRANSLATABLE_ATTRIBUTES) {
+        const source = node.getAttribute(attribute);
+        if (source === null) {
+          records.delete(attribute);
+          continue;
+        }
+        if (records.get(attribute)?.translated === source) continue;
+        const translated = translateSimplifiedChineseText(source);
+        if (translated === source) {
+          records.delete(attribute);
+        } else {
+          records.set(attribute, { source, translated });
+          node.setAttribute(attribute, translated);
+        }
+      }
+      if (records.size > 0) attributeRecords.set(node, records);
+      else attributeRecords.delete(node);
 
-  document.documentElement.lang = "zh-CN";
-  document.documentElement.dataset.synaraLocale = "zh-CN";
-  translateSubtree(document.documentElement);
+      if (node instanceof HTMLInputElement && /^(?:button|reset|submit)$/i.test(node.type)) {
+        const source = node.value;
+        if (valueRecords.get(node)?.translated === source) return;
+        const translated = translateSimplifiedChineseText(source);
+        if (translated === source) {
+          valueRecords.delete(node);
+        } else {
+          valueRecords.set(node, { source, translated });
+          node.value = translated;
+        }
+      }
+    }
+  };
 
   const pendingRoots = new Set<Node>();
+  let disposed = false;
   let flushQueued = false;
   const flush = () => {
     flushQueued = false;
-    for (const root of pendingRoots) translateSubtree(root);
+    if (disposed) return;
+    for (const root of pendingRoots) {
+      if (root.isConnected) visitSubtree(root, translateNode);
+    }
     pendingRoots.clear();
   };
   const enqueue = (root: Node) => {
@@ -531,8 +582,16 @@ export function installSimplifiedChineseLocalization(): void {
     flushQueued = true;
     queueMicrotask(flush);
   };
-
+  const restoreRemovedNodes = (mutations: MutationRecord[]) => {
+    for (const mutation of mutations) {
+      for (const node of mutation.removedNodes) {
+        // Restore cached/detached DOM too, so it is safe to reuse after switching to English.
+        if (!node.isConnected) restoreSubtree(node);
+      }
+    }
+  };
   const observer = new MutationObserver((mutations) => {
+    restoreRemovedNodes(mutations);
     for (const mutation of mutations) {
       if (mutation.type === "childList") {
         for (const node of mutation.addedNodes) enqueue(node);
@@ -541,6 +600,7 @@ export function installSimplifiedChineseLocalization(): void {
       }
     }
   });
+  visitSubtree(document.documentElement, translateNode);
   observer.observe(document.documentElement, {
     attributeFilter: [...TRANSLATABLE_ATTRIBUTES, "value"],
     attributes: true,
@@ -549,7 +609,13 @@ export function installSimplifiedChineseLocalization(): void {
     subtree: true,
   });
 
-  localizationGlobal.__synaraZhCNLocalization = {
-    disconnect: () => observer.disconnect(),
+  return () => {
+    if (disposed) return;
+    disposed = true;
+    const undeliveredMutations = observer.takeRecords();
+    observer.disconnect();
+    restoreRemovedNodes(undeliveredMutations);
+    visitSubtree(document.documentElement, restoreNode);
+    pendingRoots.clear();
   };
 }

@@ -34,6 +34,12 @@ export function settingsSearchEntryTarget(entry: SettingsSearchEntry): string | 
 export const SETTINGS_SEARCH_ENTRIES: readonly SettingsSearchEntry[] = [
   // ── General ────────────────────────────────────────────────────────────────
   {
+    id: "general:language",
+    section: "general",
+    title: "Language",
+    keywords: "Interface language locale system default English 简体中文 中文 语言 跟随系统",
+  },
+  {
     id: "general:default-provider",
     section: "general",
     title: "Default provider",

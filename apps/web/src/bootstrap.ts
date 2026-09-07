@@ -4,10 +4,10 @@
 import "./storageOriginMigration";
 
 import { bootstrapSignedOutScreen } from "./authSignedOut";
-import { installSimplifiedChineseLocalization } from "./localization/zhCN";
+import { installAppLocalization } from "./localization/runtime";
 import { bootstrapPairingSession } from "./pairingBootstrap";
 
-installSimplifiedChineseLocalization();
+installAppLocalization();
 
 if (!bootstrapSignedOutScreen()) {
   void bootstrapPairingSession().then((result) => {

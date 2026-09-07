@@ -7,10 +7,20 @@ import { translateSimplifiedChineseText } from "./zhCN";
 
 describe("translateSimplifiedChineseText", () => {
   it("uses the product glossary instead of literal machine translations", () => {
+    expect(translateSimplifiedChineseText("General")).toBe("常规");
     expect(translateSimplifiedChineseText("Thread")).toBe("任务");
     expect(translateSimplifiedChineseText("Provider")).toBe("服务商");
     expect(translateSimplifiedChineseText("Projects")).toBe("项目");
     expect(translateSimplifiedChineseText("Steer")).toBe("引导");
+  });
+
+  it("covers the updated v0.8.3 controls and settings description", () => {
+    expect(translateSimplifiedChineseText("Automatically open simulator")).toBe("自动打开模拟器");
+    expect(translateSimplifiedChineseText("Reload diff")).toBe("重新加载差异");
+    expect(translateSimplifiedChineseText("Reload file from disk")).toBe("从磁盘重新加载文件");
+    expect(translateSimplifiedChineseText(
+      "Provider used for new chats until you pick a model. New chats then reuse your most recent model and options.",
+    )).toBe("尚未选择模型时，新对话使用此服务商；选择后，新对话会沿用最近使用的模型和选项。");
   });
 
   it("normalizes terminology inside generated sentence translations", () => {

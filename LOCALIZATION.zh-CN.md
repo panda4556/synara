@@ -1,6 +1,14 @@
-# Synara 简体中文构建
+# Synara 可选语言构建
 
-此分支基于 Synara `v0.8.1`，通过启动时的 DOM 本地化层提供简体中文界面。
+此分支基于 Synara `v0.8.3`，在 **设置 → 常规 → Language / 语言** 中选择界面语言：
+
+- **跟随系统 / System default**（默认）：简体中文系统使用中文，其他语言回退到英文。
+- **English**：始终使用英文。
+- **简体中文**：始终使用简体中文。
+
+切换立即生效，无需刷新或重启；不会关闭会话、丢失草稿或修改聊天内容。选择保存在当前设备/浏览器的 `localStorage`（`synara:ui-language`），同一来源的多个窗口同步。恢复默认设置会恢复为跟随系统。
+
+语言设置本身使用原生 React 文案。现有界面的中文仍复用可选的 DOM 兼容翻译层，并非上游已经全面接入 i18n。英文模式不启动翻译观察器；从中文切回英文时恢复最新原文，保留原有 DOM 节点和事件。未来逐步迁移原生文案时，可复用 `useAppLanguage`，并用 `data-zh-cn-skip` 标记无需兼容层处理的组件。
 
 ## 翻译范围
 
@@ -21,11 +29,13 @@
 
 ```powershell
 bun run --cwd apps/web test src/localization/zhCN.test.ts
+bun run --cwd apps/web test src/localization/language.test.ts src/settingsSearchIndex.test.ts
+bun run --cwd apps/web test:browser src/components/settings/LanguageSettingsRow.browser.tsx
 bun run --cwd apps/web build
 ```
 
-Windows 本地构建使用依赖自带的 x64 原生预编译模块，不要求 Visual Studio 额外安装 Spectre C++ 库。
+使用仓库 `package.json` 指定的 Bun 版本。Windows 本地构建使用依赖自带的 x64 原生预编译模块，不要求 Visual Studio 额外安装 Spectre C++ 库。
 
 ## 更新策略
 
-本地中文安装包不包含官方更新源，避免官方英文版本自动覆盖中文资源。升级时应在新版源码上重新生成词库、完成浏览器验收并重新打包。
+社区安装包不包含官方更新源，避免被不含语言选项的上游版本覆盖。升级时应在新版源码上检查新增文案、完成双向语言切换的浏览器验收并重新打包。此构建非官方发布，也不改变登录、模型、额度或计费方式。

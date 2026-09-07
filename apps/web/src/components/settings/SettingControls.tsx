@@ -25,7 +25,15 @@ export function useSettingsRestoreSignal(epoch: number, onRestore: () => void): 
   }, [epoch]);
 }
 
-export function SettingResetButton({ label, onClick }: { label: string; onClick: () => void }) {
+export function SettingResetButton({
+  label,
+  resetLabel,
+  onClick,
+}: {
+  label: string;
+  resetLabel?: string;
+  onClick: () => void;
+}) {
   return (
     <Tooltip>
       <TooltipTrigger
@@ -33,7 +41,7 @@ export function SettingResetButton({ label, onClick }: { label: string; onClick:
           <Button
             size="icon-xs"
             variant="ghost"
-            aria-label={`Reset ${label} to default`}
+            aria-label={resetLabel ?? `Reset ${label} to default`}
             className="size-5 rounded-lg p-0 text-muted-foreground hover:text-foreground"
             onClick={(event) => {
               event.stopPropagation();
@@ -44,7 +52,7 @@ export function SettingResetButton({ label, onClick }: { label: string; onClick:
           </Button>
         }
       />
-      <TooltipPopup side="top">Reset to default</TooltipPopup>
+      <TooltipPopup side="top">{resetLabel ?? "Reset to default"}</TooltipPopup>
     </Tooltip>
   );
 }

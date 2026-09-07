@@ -38,6 +38,7 @@ import {
   NotificationsSettingsPanel,
 } from "~/components/settings/DesktopSettingsPanels";
 import { ModelsSettingsPanel } from "~/components/settings/ModelsSettingsPanel";
+import { LanguageSettingsRow } from "~/components/settings/LanguageSettingsRow";
 import {
   isProviderInstallSettingsDirty,
   ProvidersSettingsPanel,
@@ -87,6 +88,7 @@ import { SidebarHeaderNavigationControls } from "../components/SidebarHeaderNavi
 import { useDesktopCustomTitleBarState } from "../hooks/useDesktopCustomTitleBar";
 import { useDesktopTopBarTrafficLightGutterClassName } from "../hooks/useDesktopTopBarGutter";
 import { useTheme } from "../hooks/useTheme";
+import { useAppLanguage } from "../localization/useAppLanguage";
 import { isUiDensity } from "../lib/appDensity";
 import { isChatWidthMode, type ChatWidthMode } from "../lib/chatWidth";
 import { isElectron } from "../env";
@@ -195,6 +197,7 @@ type BooleanSettingKey = {
 // ── Route screen ───────────────────────────────────────────────────────────
 
 function SettingsRouteView() {
+  const { preference: languagePreference, setLanguage } = useAppLanguage();
   const routeSearch = useSearch({ strict: false }) as Record<string, unknown>;
   const activeSection = normalizeSettingsSection(routeSearch.section);
   const settingsTarget = typeof routeSearch.target === "string" ? routeSearch.target : null;
@@ -304,6 +307,7 @@ function SettingsRouteView() {
   }, [activeSection, settingsTarget]);
 
   const changedSettingLabels = [
+    ...(languagePreference !== "system" ? ["Language"] : []),
     ...(theme !== "system" ? ["Theme"] : []),
     ...(!isDefaultActiveTheme ? [`${resolvedTheme === "dark" ? "Dark" : "Light"} theme pack`] : []),
     ...(settings.defaultProvider !== defaults.defaultProvider ? ["Default provider"] : []),
@@ -401,6 +405,7 @@ function SettingsRouteView() {
     }
 
     setTheme("system");
+    setLanguage("system");
     resetAllThemes();
     await resetSettings();
     setResetEpoch((current) => current + 1);
@@ -449,6 +454,7 @@ function SettingsRouteView() {
   const renderGeneralPanel = () => (
     <div className="space-y-6">
       <SettingsSection title="Core defaults">
+        <LanguageSettingsRow />
         <SettingsRow
           title="Default provider"
           description="Provider used for new chats until you pick a model. New chats then reuse your most recent model and options."
