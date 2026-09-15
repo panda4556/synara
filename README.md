@@ -16,7 +16,7 @@
   </p>
 </div>
 
-> 基于 Synara v0.8.3，由本 fork 维护的中文构建。目前提供 Windows x64 安装包，未签名，需手动更新。
+> 基于 Synara v0.8.4，由本 fork 维护的中文构建。目前提供 Windows x64 安装包，未签名，需手动更新。
 
 <details>
   <summary><strong>Table of contents</strong></summary>

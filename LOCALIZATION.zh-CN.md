@@ -1,6 +1,6 @@
 # Synara 中文版本地化说明
 
-此分支基于 Synara `v0.8.3`，在 **设置 → 常规 → Language / 语言** 中选择界面语言：
+此分支基于 Synara `v0.8.4`，在 **设置 → 常规 → Language / 语言** 中选择界面语言：
 
 - **跟随系统 / System default**（默认）：简体中文系统使用中文，其他语言回退到英文。
 - **English**：始终使用英文。
@@ -15,6 +15,7 @@
 - 翻译导航、设置、菜单、按钮、提示、状态和常见动态计数。
 - 保留产品名、模型名、命令、路径和技术标识符。
 - 不翻译聊天正文、代码块、编辑器内容和终端输出，避免修改用户内容。
+- v0.8.4 的文件/差异编辑器、保存账号名称及浏览器配置名称使用 `data-zh-cn-skip` 保护；兼容层也跳过 `contenteditable="plaintext-only"` 的输入内容。
 - `apps/web/src/localization/zh-CN.generated.json` 是生成的基础词库，`zhCN.ts` 中的人工词汇表和动态规则优先。
 
 ## 更新词库
@@ -31,6 +32,10 @@
 bun run --cwd apps/web test src/localization/zhCN.test.ts
 bun run --cwd apps/web test src/localization/language.test.ts src/settingsSearchIndex.test.ts
 bun run --cwd apps/web test:browser src/components/settings/LanguageSettingsRow.browser.tsx
+bun run --cwd apps/web test:browser src/components/codeEditor/CodeEditorPane.browser.tsx
+bun run fmt:check
+bun run lint
+bun run typecheck
 bun run --cwd apps/web build
 ```
 
