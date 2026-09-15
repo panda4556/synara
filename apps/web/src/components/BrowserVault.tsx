@@ -179,8 +179,12 @@ export function BrowserVaultDialog() {
                   <h3 className="text-sm font-medium">
                     {prompt.mode === "update" ? "Update password?" : "Save password?"}
                   </h3>
-                  <p className="mt-1 break-words text-sm">{prompt.origin}</p>
-                  <p className="break-words text-sm text-muted-foreground">{prompt.username}</p>
+                  <p data-zh-cn-skip className="mt-1 break-words text-sm">
+                    {prompt.origin}
+                  </p>
+                  <p data-zh-cn-skip className="break-words text-sm text-muted-foreground">
+                    {prompt.username}
+                  </p>
                   <div className="mt-3 flex justify-end gap-2">
                     <Button
                       size="sm"
@@ -224,9 +228,15 @@ export function BrowserVaultDialog() {
                         <div className="flex items-start gap-3">
                           <CentralIcon name="key-1" className="mt-1 size-4 text-muted-foreground" />
                           <div className="min-w-0 flex-1">
-                            <p className="break-words text-sm font-medium">{login.origin}</p>
+                            <p data-zh-cn-skip className="break-words text-sm font-medium">
+                              {login.origin}
+                            </p>
                             <p className="break-words text-sm text-muted-foreground">
-                              {login.username || "No username"}
+                              {login.username ? (
+                                <span data-zh-cn-skip>{login.username}</span>
+                              ) : (
+                                "No username"
+                              )}
                             </p>
                             <p className="mt-1 text-xs text-muted-foreground">
                               {login.source === "agent"

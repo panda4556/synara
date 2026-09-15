@@ -73,7 +73,11 @@ export function CodeDiffEditorPane(props: CodeDiffEditorPaneProps) {
   const saveKeyDownHandler = useCodeEditorSaveKeyDownHandler(props.onSave);
 
   return (
-    <div className="min-h-0 min-w-0 flex-1 overflow-auto" onKeyDownCapture={saveKeyDownHandler}>
+    <div
+      data-zh-cn-skip
+      className="min-h-0 min-w-0 flex-1 overflow-auto"
+      onKeyDownCapture={saveKeyDownHandler}
+    >
       <CodeEditBoundary>
         {/* diffStyle is effectively mount-time config on FileDiff, so a layout
             switch must remount the instance (same treatment as the diff panel). */}

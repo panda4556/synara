@@ -114,7 +114,8 @@ const MANUAL_TRANSLATIONS: Readonly<Record<string, string>> = {
   "Show the Studio section in the sidebar": "在侧边栏中显示工作室部分",
   "Show the Text markers section in the Environment panel": "在环境面板中显示文本标记部分",
   "Show the Usage section in the Environment panel": "在环境面板中显示使用情况部分",
-  "Shown automatically only when recovery actions are relevant.": "仅在需要执行恢复操作时自动显示。",
+  "Shown automatically only when recovery actions are relevant.":
+    "仅在需要执行恢复操作时自动显示。",
   Space: "空间",
   Spaces: "空间",
   Spacious: "宽松",
@@ -206,6 +207,171 @@ const MANUAL_TRANSLATIONS: Readonly<Record<string, string>> = {
   "This pairing link could not be used.": "无法使用此配对链接。",
   "The link may be incomplete, expired, or already used. Generate a new pairing link from the Synara server and try again.":
     "链接可能不完整、已过期或已被使用。请从 Synara 服务器生成新的配对链接后重试。",
+  // v0.8.4: onboarding, workspace editing, model controls, and browser sessions.
+  "Welcome to Synara": "欢迎使用 Synara",
+  "What Synara can do": "Synara 的功能",
+  "Choose your agents": "选择智能体",
+  "Pick an appearance": "选择外观",
+  "Add your first project": "添加第一个项目",
+  "You're all set": "一切就绪",
+  "A local-first workspace for coding agents. Setup takes about a minute.":
+    "本地优先的编码智能体工作区，约一分钟即可完成设置。",
+  "Detected on this machine. Uncheck any you don't want Synara to use.":
+    "以下为此电脑上检测到的智能体。取消勾选不希望 Synara 使用的项目。",
+  "Applies live behind this window. Change it anytime in Settings → Appearance.":
+    "外观会立即应用到后方窗口，也可随时在“设置 → 外观”中修改。",
+  "A project is a folder Synara works in. Git repositories unlock branches, worktrees, diffs and pull requests.":
+    "项目是 Synara 的工作文件夹。Git 仓库还支持分支、工作树、差异和拉取请求。",
+  "Local-first": "本地优先",
+  "No account. Workspace data stays on this machine.": "无需额外账号，工作区数据保存在此电脑上。",
+  "Your own agents": "使用你的智能体",
+  "Drives the CLIs, accounts and keys already set up here.":
+    "使用此电脑上已配置的 CLI、账号和密钥。",
+  "Verify before done": "验证后再完成",
+  "Diff, terminal, browser and PR stay in one loop.":
+    "在同一工作区内查看差异、运行终端、使用浏览器和处理拉取请求。",
+  "Get started": "开始设置",
+  "Set up": "设置",
+  Continue: "继续",
+  "Skip for now": "暂时跳过",
+  "Skip setup": "跳过设置",
+  "Start using Synara": "开始使用 Synara",
+  "Setup progress": "设置进度",
+  Step: "步骤",
+  "Welcome tour": "欢迎引导",
+  "Open welcome tour": "打开欢迎引导",
+  "Replay the first-run setup: feature tour, provider selection, appearance, and first project.":
+    "重新打开首次使用引导：功能介绍、服务商选择、外观和第一个项目。",
+  "Any agent": "多种智能体",
+  "Run every coding agent in one workspace": "在同一工作区运行不同的编码智能体",
+  "Synara sits around the agent runtimes you already trust: Claude Code, Codex, Cursor, Devin, Antigravity, Grok, Factory Droid, OpenCode, and Pi. The provider keeps its account, models, and limits. Synara owns the durable task, environment, transcript, and delivery workflow around it.":
+    "Synara 整合你熟悉的智能体运行时：Claude Code、Codex、Cursor、Devin、Antigravity、Grok、Factory Droid、OpenCode 和 Pi。服务商保留各自的账号、模型和额度；Synara 负责持久化任务、环境、对话记录和交付流程。",
+  "Switch models mid-thread": "在任务中切换模型",
+  "Hand a thread to another provider": "将任务移交给其他服务商",
+  "Usage for every provider": "查看各服务商的用量",
+  "Forks from any message": "从任意消息创建分支任务",
+  "Subagents and side chats": "子智能体与侧聊",
+  "Diff review with file tree": "通过文件树审阅差异",
+  "Commit → push → PR": "提交 → 推送 → 拉取请求",
+  "Native pull-request workspace": "内置拉取请求工作区",
+  "Shared Chromium surface": "共享 Chromium 浏览器界面",
+  "Element annotations": "元素标注",
+  "iOS Simulator pane": "iOS 模拟器面板",
+  "Interval, daily, cron schedules": "按间隔、每日或 Cron 定时运行",
+  "Natural-language stop conditions": "用自然语言设置停止条件",
+  "Thread goals": "任务目标",
+  "Parallel task batches": "批量并行任务",
+  "External MCP pairing": "外部 MCP 配对",
+  "Approval boundaries": "审批边界",
+  "Tasks & worktrees": "任务与工作树",
+  "One task, one isolated environment": "每个任务都有独立的工作环境",
+  "Each task owns one body of work: its conversation, provider session, working environment, tool activity, and Git changes. Run tasks in parallel on managed Git worktrees so two agents never edit the same checkout.":
+    "每个任务拥有自己的对话、服务商会话、工作环境、工具活动和 Git 更改。使用托管 Git 工作树并行运行任务，避免多个智能体同时编辑同一检出目录。",
+  "Review & PRs": "审阅与拉取请求",
+  "From objective to evidence": "从目标到验证结果",
+  "A task is complete only after you understand and verify its result, not when the provider reports it is finished. Inspect diffs, run terminals, then commit, push, and open a pull request without leaving the workspace.":
+    "只有理解并验证结果后，任务才算完成，不能仅以服务商报告完成为准。无需离开工作区，即可查看差异、运行终端，再提交、推送并创建拉取请求。",
+  "Browser & devices": "浏览器与设备",
+  "Verify in a real browser or simulator": "在真实浏览器或模拟器中验证",
+  "Agents drive a visible, task-owned browser you can watch and annotate. On macOS, an iOS Simulator pane streams the device so agents can build, launch, and tap through an app while you follow along.":
+    "智能体操作任务专属的可见浏览器，你可以观察并添加标注。macOS 上还可通过 iOS 模拟器面板观看智能体构建、启动和操作应用。",
+  "Automations & goals": "自动化与目标",
+  "Hand off work that should keep moving": "交给智能体持续推进工作",
+  "Schedule recurring runs, attach a persistent goal to a thread so it keeps going after each clean turn, and let Synara bring you back when something needs attention. Scheduled does not mean autonomous approval.":
+    "设置定期运行，为任务添加持续目标，让它在每轮正常完成后继续推进，并在需要处理时通知你。定时运行不代表自动批准操作。",
+  "Agent Gateway": "智能体网关",
+  "Let agents operate Synara itself": "让智能体操作 Synara",
+  "A built-in MCP surface lets a supported provider session create tasks, wait on them, read transcripts, and steer other threads. Pair Codex, Claude Code, or Claude Desktop from outside with scoped, revocable credentials.":
+    "内置 MCP 接口让受支持的服务商会话创建和等待任务、读取对话记录并引导其他任务。也可使用限定权限、可撤销的凭据连接外部 Codex、Claude Code 或 Claude Desktop。",
+  Shortcuts: "快捷键",
+  "Keep your hands on the keyboard": "用快捷键高效操作",
+  "Everything in the workspace has a shortcut, and the keymap is editable from Settings. A few worth learning on day one:":
+    "工作区支持快捷键操作，也可在设置中修改键位。以下快捷键值得先熟悉：",
+  "Shortcuts worth learning today": "先熟悉这些快捷键",
+  "Search sidebar": "搜索侧边栏",
+  "Read the guide": "阅读指南",
+  "Synara capabilities": "Synara 功能",
+  Connected: "已连接",
+  "connected ·": "已连接 ·",
+  Disabled: "已禁用",
+  "Needs sign-in": "需要登录",
+  "need sign-in ·": "需要登录 ·",
+  "Not installed": "未安装",
+  "not installed": "未安装",
+  "Signing in to": "正在登录",
+  "Re-detect": "重新检测",
+  Guide: "指南",
+  "Applies to both light and dark": "同时应用于浅色和深色模式",
+  "Drop a folder here, or": "将文件夹拖到此处，或",
+  browse: "浏览文件夹",
+  "Opening the folder picker…": "正在打开文件夹选择器…",
+  "Added projects": "已添加的项目",
+  "No project yet": "尚未添加项目",
+  "Effort slider": "推理强度滑块",
+  "Once a chat has started, show reasoning effort as a slider in the composer's model menu, with fast mode and the model list alongside it. New chats keep the separate model and effort pickers.":
+    "对话开始后，在输入框的模型菜单中用滑块调整推理强度，并显示快速模式和模型列表。新对话仍使用独立的模型与推理强度选择器。",
+  "Reset effort and speed": "重置推理强度与速度",
+  "Reset to defaults": "恢复默认值",
+  "Close editor": "关闭编辑器",
+  Redo: "重做",
+  "Revert all changes": "撤销所有更改",
+  "Reload from disk": "从磁盘重新加载",
+  Overwrite: "覆盖",
+  "Saved accounts": "已保存的账号",
+  "Saved logins": "已保存的登录信息",
+  "Saved login": "已保存的登录信息",
+  Logins: "登录信息",
+  "Loading saved logins...": "正在加载已保存的登录信息…",
+  "No saved logins.": "没有已保存的登录信息。",
+  "Saved logins are locked.": "已保存的登录信息已锁定。",
+  "Lock saved logins": "锁定登录信息",
+  "Back to browser": "返回浏览器",
+  "Master password": "主密码",
+  "New master password": "新主密码",
+  "Confirm master password": "确认主密码",
+  "Set master password": "设置主密码",
+  "Keep this password somewhere safe. A forgotten master password cannot be reset here.":
+    "请妥善保存此密码。忘记主密码后，无法在此重置。",
+  "Use at least 12 characters and enter the same password twice.":
+    "密码至少需要 12 个字符，且两次输入必须一致。",
+  "Could not verify the master password. Try again shortly.": "无法验证主密码，请稍后重试。",
+  "Verifying...": "正在验证…",
+  Unlock: "解锁",
+  Password: "密码",
+  "Reveal password": "显示密码",
+  "Revealed password": "已显示的密码",
+  "Hide password": "隐藏密码",
+  "Save password?": "保存密码？",
+  "Update password?": "更新密码？",
+  "Delete login": "删除登录信息",
+  "Delete this saved login?": "删除此登录信息？",
+  "No username": "未设置用户名",
+  "Saved by an agent": "由智能体保存",
+  "Saved by you": "由你保存",
+  "Unfinished signup": "注册未完成",
+  "Saving & access": "保存与访问",
+  "Saving and access": "保存与访问",
+  "Allow agents to find saved accounts": "允许智能体查找已保存的账号",
+  "Agent password filling and generation are unavailable.": "智能体暂不支持填写或生成密码。",
+  "Offer to save passwords": "询问是否保存密码",
+  "Autosave accepted logins": "自动保存已确认的登录信息",
+  "Import browser cookies": "导入浏览器 Cookie",
+  "Import scope": "导入范围",
+  "Cookie import scope": "Cookie 导入范围",
+  "Cookie source browser": "Cookie 来源浏览器",
+  "Cookie source profile": "Cookie 来源配置",
+  "This site:": "当前网站：",
+  "All sites in this profile": "此配置中的所有网站",
+  "Import all sites": "导入所有网站",
+  "Import for this site": "导入当前网站",
+  "I allow Synara and its agents to use all imported signed-in sessions from this profile.":
+    "我允许 Synara 及其智能体使用从此配置导入的所有已登录会话。",
+  "Imports all compatible cookies from the selected profile. Every imported signed-in session becomes available across Synara browser tabs and agent workflows.":
+    "从所选配置导入所有兼容的 Cookie。导入的已登录会话可供 Synara 浏览器标签页和智能体工作流程共享使用。",
+  "Imports this site, its subdomains, and matching parent domains. Imported sessions are shared across Synara browser tabs and agent workflows.":
+    "导入当前网站、其子域和匹配父域的 Cookie。导入的会话可供 Synara 浏览器标签页和智能体工作流程共享使用。",
+  "Import stopped because the browser destination changed or the operation became unavailable. Select the destination and retry.":
+    "由于目标浏览器已更改或操作不可用，导入已停止。请选择目标后重试。",
 };
 
 const TERM_NORMALIZATIONS: ReadonlyArray<readonly [string, string]> = [
@@ -422,7 +588,7 @@ const TEXT_CONTENT_SKIP_SELECTOR = [
   "samp",
   "textarea",
   "input",
-  "[contenteditable='true']",
+  "[contenteditable]:not([contenteditable='false'])",
   "[data-testid='composer-editor']",
   "[data-zh-cn-skip]",
   ".xterm",
@@ -459,7 +625,9 @@ function shouldSkipText(element: Element): boolean {
 }
 
 function shouldSkipAttributes(element: Element): boolean {
-  const blockedContent = element.closest("pre,code,[data-zh-cn-skip],.xterm,.cm-editor,.monaco-editor");
+  const blockedContent = element.closest(
+    "pre,code,[data-zh-cn-skip],.xterm,.cm-editor,.monaco-editor",
+  );
   if (blockedContent) return true;
   return element.closest(RICH_CONTENT_SELECTOR) !== null && !isUiControlInsideRichContent(element);
 }

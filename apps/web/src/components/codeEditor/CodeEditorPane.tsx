@@ -119,7 +119,11 @@ export function CodeEditorPane(props: CodeEditorPaneProps) {
   const saveKeyDownHandler = useCodeEditorSaveKeyDownHandler(props.onSave);
 
   return (
-    <div className="min-h-0 min-w-0 flex-1 overflow-auto" onKeyDownCapture={saveKeyDownHandler}>
+    <div
+      data-zh-cn-skip
+      className="min-h-0 min-w-0 flex-1 overflow-auto"
+      onKeyDownCapture={saveKeyDownHandler}
+    >
       <CodeEditBoundary>
         <File file={file} options={options} edit editorOptions={editorOptions} />
       </CodeEditBoundary>

@@ -204,7 +204,7 @@ export function BrowserCookieImport({
                 }}
               >
                 {sources.map(({ id, name }) => (
-                  <option key={id} value={id}>
+                  <option key={id} value={id} data-zh-cn-skip>
                     {name}
                   </option>
                 ))}
@@ -223,7 +223,7 @@ export function BrowserCookieImport({
                 }}
               >
                 {profiles.map(({ id, name }) => (
-                  <option key={id} value={id}>
+                  <option key={id} value={id} data-zh-cn-skip>
                     {name}
                   </option>
                 ))}

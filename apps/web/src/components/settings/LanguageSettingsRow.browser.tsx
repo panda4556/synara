@@ -29,6 +29,7 @@ beforeEach(() => {
     <div data-message-id="message">New chat</div>
     <pre>New chat</pre><code>New chat</code><div class="xterm">New chat</div>
     <div contenteditable="true">New chat</div>
+    <div contenteditable="plaintext-only">New chat</div>
     <div data-zh-cn-skip>New chat</div>
   `;
   document.body.append(fixtures);
@@ -51,6 +52,28 @@ function element<T extends Element = HTMLElement>(selector: string): T {
 }
 
 describe("interface language", () => {
+  it("translates v0.8.4 controls without rewriting editor drafts or password values", async () => {
+    const panel = document.createElement("section");
+    panel.innerHTML = `
+      <h2>Welcome to Synara</h2>
+      <button>Revert all changes</button>
+      <div data-zh-cn-skip><span>Settings</span><span title="New chat">Saved logins</span></div>
+      <input type="password" value="Settings" aria-label="Master password" />
+      <input readonly value="New chat" aria-label="Revealed password" />
+    `;
+    fixtures.append(panel);
+    setAppLanguage("zh-CN");
+    await vi.waitFor(() => expect(panel.querySelector("h2")?.textContent).toBe("欢迎使用 Synara"));
+    expect(panel.querySelector("button")?.textContent).toBe("撤销所有更改");
+    expect(panel.querySelector("[data-zh-cn-skip]")?.textContent).toBe("SettingsSaved logins");
+    expect(panel.querySelector("span[title]")?.getAttribute("title")).toBe("New chat");
+    expect(panel.querySelector<HTMLInputElement>("input[type=password]")?.value).toBe("Settings");
+    expect(panel.querySelector<HTMLInputElement>("input[readonly]")?.value).toBe("New chat");
+    setAppLanguage("en");
+    expect(panel.querySelector("h2")?.textContent).toBe("Welcome to Synara");
+    expect(panel.querySelector("button")?.textContent).toBe("Revert all changes");
+  });
+
   it("uses a saved language on startup and tolerates repeated runtime cleanup", () => {
     dispose?.();
     window.localStorage.setItem(APP_LANGUAGE_STORAGE_KEY, "zh-CN");
@@ -132,17 +155,25 @@ describe("interface language", () => {
   it("synchronizes other windows and storage clear, but ignores session storage", async () => {
     const mounted = await render(<LanguageSettingsRow />);
     window.localStorage.setItem(APP_LANGUAGE_STORAGE_KEY, "zh-CN");
-    window.dispatchEvent(new StorageEvent("storage", {
-      key: APP_LANGUAGE_STORAGE_KEY, storageArea: window.sessionStorage,
-    }));
+    window.dispatchEvent(
+      new StorageEvent("storage", {
+        key: APP_LANGUAGE_STORAGE_KEY,
+        storageArea: window.sessionStorage,
+      }),
+    );
     expect(document.documentElement.lang).toBe("en");
-    window.dispatchEvent(new StorageEvent("storage", {
-      key: APP_LANGUAGE_STORAGE_KEY, storageArea: window.localStorage,
-    }));
+    window.dispatchEvent(
+      new StorageEvent("storage", {
+        key: APP_LANGUAGE_STORAGE_KEY,
+        storageArea: window.localStorage,
+      }),
+    );
     await expect.element(mounted.getByRole("combobox")).toHaveTextContent("简体中文");
     expect(document.documentElement.lang).toBe("zh-CN");
     window.localStorage.removeItem(APP_LANGUAGE_STORAGE_KEY);
-    window.dispatchEvent(new StorageEvent("storage", { key: null, storageArea: window.localStorage }));
+    window.dispatchEvent(
+      new StorageEvent("storage", { key: null, storageArea: window.localStorage }),
+    );
     await expect.element(mounted.getByRole("combobox")).toHaveTextContent("System default");
     expect(document.documentElement.lang).toBe("en");
     await mounted.unmount();
