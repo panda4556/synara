@@ -19,6 +19,7 @@ import type { Project, Thread } from "../types";
 import type { ComposerTrigger } from "../composer-logic";
 import { extendReplacementRangeForTrailingSpace } from "../composerTriggerInsertion";
 import {
+  buildGoalSlashCommandPrompt,
   buildSlashReviewComposerPrompt,
   buildSubagentsPrompt,
   getAvailableComposerSlashCommands,
@@ -78,7 +79,7 @@ export function useComposerSlashCommands(input: {
   isLocalDraftThread: boolean;
   supportsFastSlashCommand: boolean;
   canOfferCompactCommand: boolean;
-  canOfferSideCommand: boolean;
+  canExecuteSideCommand: boolean;
   sidechatTargetProviders: ReadonlyArray<ProviderKind>;
   canOfferExportCommand: boolean;
   supportsTextNativeReviewCommand: boolean;
@@ -131,7 +132,7 @@ export function useComposerSlashCommands(input: {
     isLocalDraftThread,
     supportsFastSlashCommand,
     canOfferCompactCommand,
-    canOfferSideCommand,
+    canExecuteSideCommand,
     sidechatTargetProviders,
     canOfferExportCommand,
     supportsTextNativeReviewCommand,
@@ -366,7 +367,7 @@ export function useComposerSlashCommands(input: {
       }
       if (action.action === "edit") {
         const currentGoal = activeThread?.goal?.trim() ?? "";
-        editorActions.setComposerPromptValue(`/goal ${currentGoal}`);
+        editorActions.setComposerPromptValue(buildGoalSlashCommandPrompt(currentGoal));
         editorActions.scheduleComposerFocus();
         return;
       }
@@ -1012,7 +1013,9 @@ export function useComposerSlashCommands(input: {
         return true;
       }
       if (slashInvocation.command === "side") {
-        if (!canOfferSideCommand) {
+        // Execute allows `/side <provider> [prompt]` even though the menu offer still
+        // requires an otherwise-empty composer (the args are meaningful prompt text).
+        if (!canExecuteSideCommand) {
           toastManager.add({
             type: "warning",
             title: "Side is unavailable",
@@ -1057,7 +1060,7 @@ export function useComposerSlashCommands(input: {
     },
     [
       availableBuiltInSlashCommands,
-      canOfferSideCommand,
+      canExecuteSideCommand,
       checkClaudeFastSlashCommandAvailability,
       compactProviderThread,
       createForkThreadFromSlashCommand,
